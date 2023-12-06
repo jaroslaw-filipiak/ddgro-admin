@@ -3,18 +3,20 @@
     <div v-if="filterOption" class="ninjadash-datatable-filter">
       <div v-if="!filterOnchange" class="ninjadash-datatable-filter__left">
         <div class="ninjadash-datatable-filter__input">
-          <span class="label">Id:</span>
+          <span class="label">:</span>
           <a-input class="ninjadash-data-id" placeholder="Search with Id" />
         </div>
         <div class="ninjadash-datatable-filter__input">
-          <span class="label">Status:</span>
+          <span class="label">Seria:</span>
           <a-select
             :style="{ width: 200 }"
             class="ninjadash-data-status"
             defaultValue="active"
           >
-            <a-select-option value="active">Active</a-select-option>
-            <a-select-option value="deactiveted">Deactivated</a-select-option>
+            <a-select-option value="active">Spiral</a-select-option>
+            <a-select-option value="deactiveted"
+              >Podstawki tarasowe</a-select-option
+            >
             <a-select-option value="blocked">Blocked</a-select-option>
           </a-select>
         </div>
@@ -30,7 +32,7 @@
           <span class="label">Id:</span>
           <a-input @change="handleIdSearch" placeholder="Search with Id" />
         </div>
-        <div class="ninjadash-datatable-filter__input">
+        <!-- <div class="ninjadash-datatable-filter__input">
           <span class="label">Status:</span>
           <a-select
             @change="handleStatusSearch"
@@ -41,7 +43,7 @@
             <a-select-option value="deactiveted">Deactivated</a-select-option>
             <a-select-option value="blocked">Blocked</a-select-option>
           </a-select>
-        </div>
+        </div> -->
       </div>
 
       <div class="ninjadash-datatable-filter__right">
@@ -58,14 +60,14 @@
         <a-table
           v-if="rowSelection"
           :row-selection="rowSelections"
-          :pagination="{ pageSize: 10, showSizeChanger: true }"
+          :pagination="{ pageSize: 20, showSizeChanger: true }"
           :data-source="tableData"
           :columns="columns"
         />
 
         <a-table
           v-else
-          :pagination="{ pageSize: 10, showSizeChanger: true }"
+          :pagination="{ pageSize: 20, showSizeChanger: true }"
           :data-source="tableData"
           :columns="columns"
         />

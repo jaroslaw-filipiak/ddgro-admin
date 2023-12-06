@@ -204,12 +204,19 @@
     },
 
     setup() {
-      const { state, dispatch } = useStore();
+      const store = useStore();
 
-      onMounted(() => dispatch('tableReadData'));
+      onMounted(() =>
+        // store.dispatch('tableReadData', {
+        //   amount: 11,
+        // })
+        store.dispatch('test', {
+          foo: 'bar',
+        })
+      );
 
       const tableDataScource = computed(() =>
-        state.dataTable.tableData.map((item) => {
+        store.state.dataTable.tableData.map((item) => {
           const { id, name, country, company, position, status, date } = item;
           return {
             id: `#${id}`,

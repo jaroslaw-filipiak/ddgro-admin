@@ -6,6 +6,7 @@ export default {
   dataTableReadSuccess(state, data) {
     state.loading = false;
     state.tableData = data;
+    state.tableDataFiler = data;
   },
 
   dataTableReadErr(state, err) {
@@ -32,7 +33,7 @@ export default {
 
   dataLiveFilterSuccess(state, data) {
     state.loading = false;
-    state.tableData = data;
+    state.tableDataFiler = data;
   },
 
   dataLiveFilterErr(state, err) {

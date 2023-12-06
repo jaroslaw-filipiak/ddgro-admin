@@ -43,7 +43,6 @@
       </a-menu-item>
     </a-sub-menu>
   </a-menu>
-  <footer>mode: {{ APP_MODE }}</footer>
 </template>
 <script>
   import {
@@ -74,7 +73,6 @@
       const { t } = useI18n();
       const store = useStore();
       const darkMode = computed(() => store.state.themeLayout.data);
-      const APP_MODE = computed(() => process.env.VUE_APP_MODE);
       const mode = ref('inline');
       const { events } = toRefs(props);
       const {
@@ -142,7 +140,6 @@
         onOpenChange,
         onClick,
         t,
-        APP_MODE,
       };
     },
   });
