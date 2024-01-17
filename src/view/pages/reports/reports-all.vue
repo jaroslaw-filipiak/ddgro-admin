@@ -158,34 +158,24 @@
       key: 'id',
     },
     {
-      title: 'User',
-      dataIndex: 'user',
-      key: 'user',
+      title: 'Imię, Nazwisko',
+      dataIndex: 'name_surname',
+      key: 'name_surname',
     },
     {
-      title: 'Country',
-      dataIndex: 'country',
-      key: 'coutry',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: 'Company',
-      dataIndex: 'company',
-      key: 'company',
+      title: 'Ilość wsporników',
+      dataIndex: 'supports_count',
+      key: 'supports_count',
     },
     {
-      title: 'Position',
-      dataIndex: 'position',
-      key: 'position',
-    },
-    {
-      title: 'Join Date',
+      title: 'Data',
       dataIndex: 'date',
       key: 'date',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
     },
     {
       title: 'Actions',
@@ -206,24 +196,17 @@
     setup() {
       const { state, dispatch } = useStore();
 
-      onMounted(() => dispatch('tableReadData'));
+      onMounted(() => dispatch('tableReadData', { endpoint: 'applications' }));
 
       const tableDataScource = computed(() =>
         state.dataTable.tableData.map((item) => {
-          const { id, name, country, company, position, status, date } = item;
+          const { id, name_surname, email, supports_count, created_at } = item;
           return {
             id: `#${id}`,
-            key: item.id,
-            user: <span class='ninjadash-username'>{name}</span>,
-            country: <span>{country}</span>,
-            company: <span>{company}</span>,
-            position,
-            date,
-            status: (
-              <span class={`ninjadash-status ninjadash-status-${status}`}>
-                {status}
-              </span>
-            ),
+            name_surname: name_surname,
+            email: email,
+            supports_count: supports_count,
+            date: new Date(created_at).toLocaleDateString(),
             action: (
               <div class='table-actions'>
                 <router-link class='view' to={`#`}>

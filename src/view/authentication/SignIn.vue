@@ -3,7 +3,7 @@
     <a-col :xxl="6" :xl="12" :md="12" :sm="18">
       <AuthWrapper>
         <div class="ninjadash-authentication-top">
-          <h2 class="ninjadash-authentication-top__title">Sign in HexaDash</h2>
+          <h2 class="ninjadash-authentication-top__title">Zaloguj się</h2>
         </div>
         <div class="ninjadash-authentication-content">
           <a-form @finish="handleSubmit" :model="formState" layout="vertical">
@@ -25,13 +25,13 @@
             </div>
             <a-form-item>
               <sdButton class="btn-signin" htmlType="submit" type="primary">
-                {{ isLoading ? "Loading..." : "Sign In" }}
+                {{ isLoading ? 'Loading...' : 'Sign In' }}
               </sdButton>
             </a-form-item>
-            <p class="ninjadash-form-divider">
+            <p class="ninjadash-form-divider" style="display: none">
               <span>Or</span>
             </p>
-            <ul class="ninjadash-social-login">
+            <ul class="ninjadash-social-login" style="display: none">
               <li>
                 <a class="google-social" href="#">
                   <InlineSvg
@@ -57,7 +57,7 @@
             </ul>
           </a-form>
         </div>
-        <div class="ninjadash-authentication-bottom">
+        <div class="ninjadash-authentication-bottom" style="display: none">
           <p>
             Don't have an account?<router-link to="/auth/register"
               >Sign up</router-link
@@ -69,43 +69,43 @@
   </a-row>
 </template>
 <script>
-import { computed, reactive, ref, defineComponent } from "vue";
-import { useStore } from "vuex";
-import { AuthWrapper } from "./style";
-import { useRouter } from "vue-router";
-import InlineSvg from "vue-inline-svg";
+  import { computed, reactive, ref, defineComponent } from 'vue';
+  import { useStore } from 'vuex';
+  import { AuthWrapper } from './style';
+  import { useRouter } from 'vue-router';
+  import InlineSvg from 'vue-inline-svg';
 
-const SignIn = defineComponent({
-  name: "SignIn",
-  components: { AuthWrapper, InlineSvg },
-  setup() {
-    const { state, dispatch } = useStore();
-    const isLoading = computed(() => state.auth.loading);
-    const checked = ref(null);
-    const router = useRouter();
+  const SignIn = defineComponent({
+    name: 'SignIn',
+    components: { AuthWrapper, InlineSvg },
+    setup() {
+      const { state, dispatch } = useStore();
+      const isLoading = computed(() => state.auth.loading);
+      const checked = ref(null);
+      const router = useRouter();
 
-    const handleSubmit = () => {
-      router.push("/");
-      dispatch("login");
-    };
-    const onChange = (checked) => {
-      checked.value = checked;
-    };
+      const handleSubmit = () => {
+        router.push('/');
+        dispatch('login');
+      };
+      const onChange = (checked) => {
+        checked.value = checked;
+      };
 
-    const formState = reactive({
-      email: "example@email.com",
-      password: "1234565",
-    });
+      const formState = reactive({
+        email: 'example@email.com',
+        password: '1234565',
+      });
 
-    return {
-      isLoading,
-      checked,
-      handleSubmit,
-      onChange,
-      formState,
-    };
-  },
-});
+      return {
+        isLoading,
+        checked,
+        handleSubmit,
+        onChange,
+        formState,
+      };
+    },
+  });
 
-export default SignIn;
+  export default SignIn;
 </script>
