@@ -7,7 +7,11 @@
     <div class="ninjadash-authentication-wrap">
       <div class="ninjadash-authentication-brand">
         <!-- TODO: logo ddgro -->
-        <!-- <img :src="require('../static/img/Logo_Dark.svg')" alt="" /> -->
+        <img
+          style="max-width: 220px; margin-bottom: 30px"
+          :src="require('./../../public/logo-dd.png')"
+          alt=""
+        />
       </div>
       <router-view></router-view>
     </div>
