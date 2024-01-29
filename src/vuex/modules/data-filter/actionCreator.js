@@ -22,7 +22,7 @@ const actions = {
   },
 
   async filterWithSubmit({ commit, state }, { id, status }) {
-    URL: console.log(state);
+    // URL: console.log(state);
     try {
       commit('filterWithSubmitBegin');
       setTimeout(() => {
