@@ -12,8 +12,14 @@ export default [
         name: 'reports-all',
         component: () => import('@/view/pages/reports/reports-all.vue'),
       },
+      {
+        path: ':id',
+        name: 'single-report',
+        component: () => import('@/view/pages/reports/id.vue'),
+      },
     ],
   },
+
   {
     path: '/produkty',
     name: 'products',

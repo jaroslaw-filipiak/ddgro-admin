@@ -209,14 +209,8 @@
             date: new Date(created_at).toLocaleDateString(),
             action: (
               <div class='table-actions'>
-                <router-link class='view' to={`#`}>
+                <router-link class='view' to={`${id}`}>
                   <unicon name='eye'></unicon>
-                </router-link>
-                <router-link class='edit' to='#'>
-                  <unicon name='edit'></unicon>
-                </router-link>
-                <router-link class='delete' to='#'>
-                  <unicon name='trash'></unicon>
                 </router-link>
               </div>
             ),
