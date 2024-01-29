@@ -3,7 +3,7 @@ import themes from './themeConfigure';
 const { lightMode, blackMode } = themes;
 
 const primaryColor = '#f39325';
-const primaryHover = '#6726A8';
+const primaryHover = '#f19b37';
 const secondaryColor = '#5840FF';
 const secondaryHover = '#3520C8';
 const linkColor = '#1890ff';

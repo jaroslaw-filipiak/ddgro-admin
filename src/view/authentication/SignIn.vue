@@ -7,17 +7,17 @@
         </div>
         <div class="ninjadash-authentication-content">
           <a-form @finish="handleSubmit" :model="formState" layout="vertical">
-            <a-form-item name="username" label="Username or Email Address">
+            <a-form-item name="username" label="Nazwa użytkownika lub email">
               <a-input type="email" v-model:value="formState.email" />
             </a-form-item>
-            <a-form-item name="password" initialValue="123456" label="Password">
+            <a-form-item name="password" initialValue="123456" label="Hasło">
               <a-input
                 type="password"
                 v-model:value="formState.password"
                 placeholder="Password"
               />
             </a-form-item>
-            <div class="ninjadash-auth-extra-links">
+            <div class="ninjadash-auth-extra-links" style="display: none">
               <a-checkbox @change="onChange">Keep me logged in</a-checkbox>
               <router-link class="forgot-pass-link" to="/auth/forgotPassword">
                 Forgot password?
@@ -25,7 +25,7 @@
             </div>
             <a-form-item>
               <sdButton class="btn-signin" htmlType="submit" type="primary">
-                {{ isLoading ? 'Loading...' : 'Sign In' }}
+                {{ isLoading ? 'Loading...' : 'Zaloguj się' }}
               </sdButton>
             </a-form-item>
             <p class="ninjadash-form-divider" style="display: none">
