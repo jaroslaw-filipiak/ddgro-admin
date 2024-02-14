@@ -135,13 +135,7 @@
   import { TicketBox } from './styled';
   import { useStore } from 'vuex';
   import OverviewCard from '@/components/cards/OverviewCard.vue';
-  import {
-    defineComponent,
-    onMounted,
-    computed,
-    ref,
-    defineAsyncComponent,
-  } from 'vue';
+  import { defineComponent, onMounted, computed, ref } from 'vue';
 
   import { idGenerator } from '../../../utility/utility';
   import dayjs from 'dayjs';
