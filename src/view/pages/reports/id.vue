@@ -10,14 +10,14 @@
         <!-- <OverviewDataList /> -->
         <a-col :xl="12" :md="12" :xs="24">
           <OverviewCard
-            :ocData="item1"
+            :ocData="box1"
             :bottomStatus="false"
             class="ninjadash-overview-card-support"
           />
         </a-col>
         <a-col :xl="12" :md="12" :xs="24">
           <OverviewCard
-            :ocData="item2"
+            :ocData="box2"
             :bottomStatus="false"
             class="ninjadash-overview-card-support"
           />
@@ -180,12 +180,32 @@
       const dataState = computed(() => state.tickets.data);
 
       const data = ref();
+      const box1 = ref({
+        id: 1,
+        type: 'primary',
+        icon: 'border-alt',
+        label: 'Łączna powierzchnia',
+        total: '',
+        suffix: 'm2',
+        prefix: '',
+      });
+      const box2 = ref({
+        id: 1,
+        type: 'primary',
+        icon: 'screw',
+        label: 'Liczba wsporników',
+        total: '',
+        suffix: '',
+        prefix: '',
+      });
 
       const getData = async () => {
         try {
           const id = route?.currentRoute.value.params.id;
           const response = await axios.get(`${API_URL}/application/${id}`);
           data.value = response.data;
+          box1.value.total = data.value?.data?.total_area;
+          box2.value.total = data.value?.data?.supports_count;
         } catch (error) {
           console.log(error);
         }
@@ -194,6 +214,7 @@
       onMounted(() => {
         const id = route?.currentRoute.value.params.id;
         getData();
+
         // dispatch('ticketReadData');
         // dispatch('tableReadData', { endpoint: 'applications' });
         // dispatch('getReportData', {
@@ -236,26 +257,6 @@
         visible.value = false;
       };
 
-      const item1 = {
-        id: 1,
-        type: 'primary',
-        icon: 'ticket',
-        label: 'Łączna powierzchnia',
-        total: '12',
-        suffix: '',
-        prefix: '',
-      };
-
-      const item2 = {
-        id: 1,
-        type: 'primary',
-        icon: 'ticket',
-        label: 'Ilość płytek',
-        total: '30825',
-        suffix: '',
-        prefix: '',
-      };
-
       const showModal = () => {
         visible.value = true;
       };
@@ -293,9 +294,9 @@
         filterProductsByIds,
         severalIds,
         OverviewCard,
-        item1,
-        item2,
         data,
+        box1,
+        box2,
       };
     },
   });
