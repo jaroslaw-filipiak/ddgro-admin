@@ -4,10 +4,6 @@
     class="ninjadash-page-header-main"
   ></sdPageHeader>
 
-  <!-- <pre>
-  <code>data:{{ data?.products }}</code>
-</pre> -->
-
   <Main>
     <TicketBox>
       <a-row :gutter="30">
@@ -48,7 +44,7 @@
             <!-- <div>
               <pre>
                 <code>
-               {{data?.user || 'brak danych'}}
+               {{ data?.user || 'brak danych'}}
                 </code>
               </pre>
             </div> -->
@@ -79,7 +75,7 @@
             <!-- <div>
               <pre>
                 <code>
-               {{data?.user || 'brak danych'}}
+               {{ data?.user || 'brak danych'}}
                 </code>
               </pre>
             </div> -->
@@ -117,7 +113,7 @@
             <!-- <div>
               <pre>
                 <code>
-               {{data?.user || 'brak danych'}}
+               {{ data?.user || 'brak danych'}}
                 </code>
               </pre>
             </div> -->
@@ -182,7 +178,6 @@
       const route = useRouter();
       const { state, dispatch } = useStore();
       const visible = ref(false);
-      const data = ref(null);
 
       const formattedDate = (date) => {
         return dayjs(date).format('DD-MM-YYYY');
@@ -190,13 +185,13 @@
 
       const dataState = computed(() => state.tickets.data);
 
+      const data = ref();
+
       const getData = async () => {
         try {
           const id = route?.currentRoute.value.params.id;
           const response = await axios.get(`${API_URL}/application/${id}`);
-          console.log(response);
           data.value = response.data;
-          console.log(data.value);
         } catch (error) {
           console.log(error);
         }
