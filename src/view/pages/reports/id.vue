@@ -4,10 +4,29 @@
     class="ninjadash-page-header-main"
   ></sdPageHeader>
 
+  <!-- <pre>
+  <code>data:{{ data?.products }}</code>
+</pre> -->
+
   <Main>
     <TicketBox>
       <a-row :gutter="30">
-        <OverviewDataList />
+        <!-- <OverviewDataList /> -->
+        <a-col :xl="12" :md="12" :xs="24">
+          <OverviewCard
+            :ocData="item1"
+            :bottomStatus="false"
+            class="ninjadash-overview-card-support"
+          />
+        </a-col>
+        <a-col :xl="12" :md="12" :xs="24">
+          <OverviewCard
+            :ocData="item2"
+            :bottomStatus="false"
+            class="ninjadash-overview-card-support"
+          />
+        </a-col>
+
         <a-col :md="24">
           <sdCards headless>
             <div class="header">
@@ -16,18 +35,20 @@
 
             <div>
               <b>Utworzono:</b>
-              {{ formattedDate(reportData?.user?.created_at) || 'brak danych' }}
+
+              {{ formattedDate(data?.data?.created_at) || 'brak danych' }}
             </div>
             <div>
-              <b>Imię i nazwisko:</b> {{ reportData?.user?.name_surname }}
+              <b>Imię i nazwisko:</b>
+              {{ data?.data?.name_surname || '---' }}
             </div>
-            <div><b>Adres email:</b> {{ reportData?.user?.email }}</div>
-            <div><b>Profesja:</b> {{ reportData?.user?.proffesion }}</div>
+            <div><b>Adres email:</b> {{ data?.data?.email }}</div>
+            <div><b>Profesja:</b> {{ data?.data?.proffesion }}</div>
 
             <!-- <div>
               <pre>
                 <code>
-               {{ reportData?.user || 'brak danych'}}
+               {{data?.user || 'brak danych'}}
                 </code>
               </pre>
             </div> -->
@@ -44,28 +65,21 @@
             </div>
 
             <div>
-              <b> Typ: </b
-              >{{ reportData?.user?.type === 'slab' ? 'Płyty' : 'Deski' }}
+              <b> Typ: </b>{{ data?.user?.type === 'slab' ? 'Płyty' : 'Deski' }}
             </div>
             <div>
-              <b>Łączna powierzchnia:</b> {{ reportData?.form?.total_area }} m2
+              <b>Łączna powierzchnia:</b> {{ data?.data?.total_area }} m2
             </div>
-            <div><b>Ilość tarasów:</b> {{ reportData?.form?.count }}</div>
-            <div><b>Najniższy punkt:</b> {{ reportData?.form?.lowest }} mm</div>
-            <div>
-              <b>Najwyższy punkt:</b> {{ reportData?.form?.highest }} mm
-            </div>
-            <div>
-              <b>Szerokość płyty: </b> {{ reportData?.form?.slab_width }} mm
-            </div>
-            <div>
-              <b>Wysokość płyty: </b>{{ reportData?.form?.slab_height }} mm
-            </div>
+            <div><b>Ilość tarasów:</b> {{ data?.data?.count }}</div>
+            <div><b>Najniższy punkt:</b> {{ data?.data?.lowest }} mm</div>
+            <div><b>Najwyższy punkt:</b> {{ data?.data?.highest }} mm</div>
+            <div><b>Szerokość płyty: </b> {{ data?.data?.slab_width }} mm</div>
+            <div><b>Wysokość płyty: </b>{{ data?.data?.slab_height }} mm</div>
 
             <!-- <div>
               <pre>
                 <code>
-               {{ reportData?.user || 'brak danych'}}
+               {{data?.user || 'brak danych'}}
                 </code>
               </pre>
             </div> -->
@@ -81,12 +95,29 @@
               <sdHeading as="h4">Dodatkowe akcesoria:</sdHeading>
             </div>
 
-            <div>{{ additionalAccesories || 'brak danch, nie wybrano' }}</div>
+            <div>
+              <ul>
+                <li
+                  class="additional-accessories-list-item"
+                  v-for="item in additionalAccesories"
+                  :key="item.id"
+                >
+                  <div>
+                    <strong>{{ item.name }}</strong>
+                  </div>
+                  <div><strong>kod:</strong> {{ item.code }}</div>
+                  <div><strong>cena netto:</strong> {{ item.price_net }}</div>
+                  <div>
+                    <strong>skrócona nazwa:</strong> {{ item.short_name }}
+                  </div>
+                </li>
+              </ul>
+            </div>
 
             <!-- <div>
               <pre>
                 <code>
-               {{ reportData?.user || 'brak danych'}}
+               {{data?.user || 'brak danych'}}
                 </code>
               </pre>
             </div> -->
@@ -102,10 +133,12 @@
 </template>
 
 <script>
+  import axios from 'axios';
   import { useRouter } from 'vue-router';
   import { Main, TableWrapper } from './styled';
   import { TicketBox } from './styled';
   import { useStore } from 'vuex';
+  import OverviewCard from '@/components/cards/OverviewCard.vue';
   import {
     defineComponent,
     onMounted,
@@ -116,70 +149,24 @@
 
   import { idGenerator } from '../../../utility/utility';
   import dayjs from 'dayjs';
+
+  const API_URL = process.env.VUE_APP_APIURL;
+
   const OverviewDataList = defineAsyncComponent(() =>
     import('./overview/OverviewDataList.vue')
   );
 
-  const pageRoutes = [
-    {
-      path: 'index',
-      breadcrumbName: 'Dashboard',
-    },
-    {
-      path: 'app',
-      breadcrumbName: 'Apps',
-    },
-    {
-      path: 'first',
-      breadcrumbName: 'Tickets',
-    },
-  ];
-  const columns = [
-    {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'Requested By',
-      dataIndex: 'requested',
-      key: 'requested',
-    },
-    {
-      title: 'Subject',
-      dataIndex: 'subject',
-      key: 'subject',
-    },
-    {
-      title: 'Priority',
-      dataIndex: 'priority',
-      key: 'priority',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-    },
-    {
-      title: 'Created Date',
-      dataIndex: 'createAt',
-      key: 'createAt',
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'action',
-      key: 'action',
-      width: '90px',
-    },
-  ];
-  const prefix = (
-    <SearchOutlined
-      style={{
-        fontSize: 16,
-        color: '#1890ff',
-      }}
-    />
-  );
+  // Assuming you have an array of several ids
+  const severalIds = [32, 4, 6];
+
+  const filterProductsByIds = (products, ids) => {
+    console.log(ids);
+    console.log(typeof ids);
+    console.log(products);
+    console.log(typeof products);
+    // return products;
+    // return products.filter((product) => ids.includes(product.id));
+  };
 
   const SupportTicket = defineComponent({
     name: 'SupportTicket',
@@ -187,7 +174,7 @@
       Main,
       TicketBox,
       TableWrapper,
-
+      OverviewCard,
       OverviewDataList,
     },
 
@@ -195,31 +182,42 @@
       const route = useRouter();
       const { state, dispatch } = useStore();
       const visible = ref(false);
+      const data = ref(null);
 
       const formattedDate = (date) => {
         return dayjs(date).format('DD-MM-YYYY');
       };
 
-      const additionalAccesories = computed(() => {
-        const accesories = reportData.value?.accesories;
-        console.log(accesories);
-        return accesories;
-      });
-
       const dataState = computed(() => state.tickets.data);
+
+      const getData = async () => {
+        try {
+          const id = route?.currentRoute.value.params.id;
+          const response = await axios.get(`${API_URL}/application/${id}`);
+          console.log(response);
+          data.value = response.data;
+          console.log(data.value);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       onMounted(() => {
         const id = route?.currentRoute.value.params.id;
+        getData();
         // dispatch('ticketReadData');
         // dispatch('tableReadData', { endpoint: 'applications' });
-        dispatch('getReportData', {
-          endpoint: id,
-        });
+        // dispatch('getReportData', {
+        //   endpoint: id,
+        // });
 
         console.log(typeof state.reports.reportData.products);
       });
 
       const reportData = computed(() => state.reports.reportData);
+      const additionalAccesories = computed(
+        () => data.value?.additional_accessories
+      );
 
       const handleIdSearch = (e) => {
         const value = e.currentTarget.value;
@@ -249,6 +247,26 @@
         visible.value = false;
       };
 
+      const item1 = {
+        id: 1,
+        type: 'primary',
+        icon: 'ticket',
+        label: 'Łączna powierzchnia',
+        total: '12',
+        suffix: '',
+        prefix: '',
+      };
+
+      const item2 = {
+        id: 1,
+        type: 'primary',
+        icon: 'ticket',
+        label: 'Ilość płytek',
+        total: '30825',
+        suffix: '',
+        prefix: '',
+      };
+
       const showModal = () => {
         visible.value = true;
       };
@@ -272,9 +290,6 @@
       };
 
       return {
-        pageRoutes,
-        prefix,
-        columns,
         // dataSource,
         handleIdSearch,
         handleStatusSearch,
@@ -286,9 +301,26 @@
         reportData,
         formattedDate,
         additionalAccesories,
+        filterProductsByIds,
+        severalIds,
+        OverviewCard,
+        item1,
+        item2,
+        data,
       };
     },
   });
 
   export default SupportTicket;
 </script>
+
+<style>
+  .additional-accessories-list-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 14px 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+</style>

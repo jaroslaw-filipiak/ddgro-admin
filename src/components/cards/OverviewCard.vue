@@ -1,6 +1,9 @@
 <template>
   <OverviewCard class="ninjadash-overview-card-box">
-    <a-card :bordered="false" :class="halfCircleIcon ? 'ninjadash-overview-halfCircle-card' : null">
+    <a-card
+      :bordered="false"
+      :class="halfCircleIcon ? 'ninjadash-overview-halfCircle-card' : null"
+    >
       <div
         :class="`ninjadash-overview-card ninjadash-overview-card-${ocData.type}`"
       >
@@ -23,40 +26,42 @@
                 : 'ninjadash-overview-card__top--content text-right'
             "
           >
-          <template v-if="halfCircleIcon">
-            <span className="ninjadahs-overview-label">{{ ocData.label }}</span>
-            <h4 class="ninjadash-overview-total">
-              <vue3-autocounter
-                ref="counter"
-                :startAmount="0"
-                :endAmount="didViewCountUp ? Number(ocData.total) : 0"
-                :duration="2"
-                :prefix="ocData.prefix"
-                :suffix="ocData.suffix"
-                separator=","
-                decimalSeparator="."
-                :decimals="ocData.decimal"
-                :autoinit="true"
-              ></vue3-autocounter>
-            </h4>
-          </template>
-          <template v-else>
-            <h4 class="ninjadash-overview-total">
-              <vue3-autocounter
-                ref="counter"
-                :startAmount="0"
-                :endAmount="didViewCountUp ? Number(ocData.total) : 0"
-                :duration="2"
-                :prefix="ocData.prefix"
-                :suffix="ocData.suffix"
-                separator=","
-                decimalSeparator="."
-                :decimals="ocData.decimal"
-                :autoinit="true"
-              ></vue3-autocounter>
-            </h4>
-            <span class="ninjadahs-overview-label">{{ ocData.label }}</span>
-          </template>
+            <template v-if="halfCircleIcon">
+              <span className="ninjadahs-overview-label">{{
+                ocData.label
+              }}</span>
+              <h4 class="ninjadash-overview-total">
+                <vue3-autocounter
+                  ref="counter"
+                  :startAmount="0"
+                  :endAmount="didViewCountUp ? Number(ocData.total) : 0"
+                  :duration="2"
+                  :prefix="ocData.prefix"
+                  :suffix="ocData.suffix"
+                  separator=","
+                  decimalSeparator="."
+                  :decimals="ocData.decimal"
+                  :autoinit="true"
+                ></vue3-autocounter>
+              </h4>
+            </template>
+            <template v-else>
+              <h4 class="ninjadash-overview-total">
+                <vue3-autocounter
+                  ref="counter"
+                  :startAmount="0"
+                  :endAmount="didViewCountUp ? Number(ocData.total) : 0"
+                  :duration="2"
+                  :prefix="ocData.prefix"
+                  :suffix="ocData.suffix"
+                  separator=","
+                  decimalSeparator="."
+                  :decimals="ocData.decimal"
+                  :autoinit="true"
+                ></vue3-autocounter>
+              </h4>
+              <span class="ninjadahs-overview-label">{{ ocData.label }}</span>
+            </template>
           </div>
         </div>
 
@@ -79,49 +84,49 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
-import { OverviewCard } from "./style";
-import VueTypes from "vue-types";
-import Vue3Autocounter from "vue3-autocounter";
+  import { defineComponent, ref, onMounted } from 'vue';
+  import { OverviewCard } from './style';
+  import VueTypes from 'vue-types';
+  import Vue3Autocounter from 'vue3-autocounter';
 
-const OverviewCards = defineComponent({
-  name: "OverviewCards",
-  props: {
-    ocData: VueTypes.object.def({
-      id: "1",
-      type: "primary",
-      icon: "briefcase-alt",
-      total: "100",
-      suffix: "+",
-      prefix: "",
-      label: "Total Products",
-      growth: "downward",
-      growthRate: "15.65",
-      dataPeriod: "Since Last Month",
-      decimal: 0,
-    }),
-    bottomStatus: VueTypes.bool.def(true),
-    contentFirst: VueTypes.bool.def(true),
-    halfCircleIcon: VueTypes.bool.def(false),
-  },
-  components: {
-    OverviewCard,
-    "vue3-autocounter": Vue3Autocounter,
-  },
-  setup() {
-    const didViewCountUp = ref(false);
+  const OverviewCards = defineComponent({
+    name: 'OverviewCards',
+    props: {
+      ocData: VueTypes.object.def({
+        id: '1',
+        type: 'primary',
+        icon: 'briefcase-alt',
+        total: '100',
+        suffix: '+',
+        prefix: '',
+        label: 'Total Products',
+        growth: 'downward',
+        growthRate: '15.65',
+        dataPeriod: 'Since Last Month',
+        decimal: 0,
+      }),
+      bottomStatus: VueTypes.bool.def(true),
+      contentFirst: VueTypes.bool.def(true),
+      halfCircleIcon: VueTypes.bool.def(false),
+    },
+    components: {
+      OverviewCard,
+      'vue3-autocounter': Vue3Autocounter,
+    },
+    setup() {
+      const didViewCountUp = ref(false);
 
-    onMounted(() => {
-      setTimeout(() => {
-        didViewCountUp.value = true;
-      }, 200);
-    });
+      onMounted(() => {
+        setTimeout(() => {
+          didViewCountUp.value = true;
+        }, 200);
+      });
 
-    return {
-      didViewCountUp,
-    };
-  },
-});
+      return {
+        didViewCountUp,
+      };
+    },
+  });
 
-export default OverviewCards;
+  export default OverviewCards;
 </script>
