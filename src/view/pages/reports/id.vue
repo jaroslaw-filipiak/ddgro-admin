@@ -148,9 +148,9 @@
 
   const API_URL = process.env.VUE_APP_APIURL;
 
-  const OverviewDataList = defineAsyncComponent(() =>
-    import('./overview/OverviewDataList.vue')
-  );
+  // const OverviewDataList = defineAsyncComponent(() =>
+  //   import('./overview/OverviewDataList.vue')
+  // );
 
   // Assuming you have an array of several ids
   const severalIds = [32, 4, 6];
@@ -171,7 +171,7 @@
       TicketBox,
       TableWrapper,
       OverviewCard,
-      OverviewDataList,
+      // OverviewDataList,
     },
 
     setup() {
