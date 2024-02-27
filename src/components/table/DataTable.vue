@@ -60,14 +60,20 @@
         <a-table
           v-if="rowSelection"
           :row-selection="rowSelections"
-          :pagination="{ pageSize: 20, showSizeChanger: true }"
+          :pagination="{
+            pageSize: pageSize ? pageSize : 40,
+            showSizeChanger: true,
+          }"
           :data-source="tableData"
           :columns="columns"
         />
 
         <a-table
           v-else
-          :pagination="{ pageSize: 20, showSizeChanger: true }"
+          :pagination="{
+            pageSize: pageSize ? pageSize : 40,
+            showSizeChanger: true,
+          }"
           :data-source="tableData"
           :columns="columns"
         />
@@ -90,6 +96,7 @@
       rowSelection: VueTypes.bool,
       tableData: VueTypes.array,
       columns: VueTypes.array,
+      pageSize: VueTypes.number,
     },
     setup() {
       const { dispatch } = useStore();

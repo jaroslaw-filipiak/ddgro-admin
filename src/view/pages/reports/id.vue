@@ -23,7 +23,7 @@
           />
         </a-col>
 
-        <a-col :md="24">
+        <a-col :xl="12" :md="6">
           <sdCards headless>
             <div class="header">
               <sdHeading as="h4">Dane podstawowe</sdHeading>
@@ -40,6 +40,9 @@
             </div>
             <div><b>Adres email:</b> {{ data?.data?.email }}</div>
             <div><b>Profesja:</b> {{ data?.data?.proffesion }}</div>
+            <div><b>&nbsp;</b> &nbsp;</div>
+            <div><b>&nbsp;</b> &nbsp;</div>
+            <div><b>&nbsp;</b> &nbsp;</div>
 
             <!-- <div>
               <pre>
@@ -54,7 +57,7 @@
             </div>
           </sdCards>
         </a-col>
-        <a-col :md="24">
+        <a-col :xl="12" :md="6">
           <sdCards headless>
             <div class="header">
               <sdHeading as="h4">Dane z formularza:</sdHeading>
@@ -85,6 +88,7 @@
             </div>
           </sdCards>
         </a-col>
+
         <a-col :md="24">
           <sdCards headless>
             <div class="header">
@@ -125,17 +129,36 @@
         </a-col>
       </a-row>
     </TicketBox>
+    <TicketBox>
+      <a-row :gutter="15">
+        <a-col :xs="24" class="m_standard">
+          <BorderLessHeading>
+            <sdCards title="Matryca M_STANDARD">
+              <DataTables
+                :pageSize="100"
+                :filterOption="false"
+                :filterOnchange="false"
+                :tableData="mStandardMatrix"
+                :columns="mStandardMatrixColumns"
+                :rowSelection="false"
+              />
+            </sdCards>
+          </BorderLessHeading>
+        </a-col>
+      </a-row>
+    </TicketBox>
   </Main>
 </template>
 
 <script>
   import axios from 'axios';
   import { useRouter } from 'vue-router';
-  import { Main, TableWrapper } from './styled';
+  import { Main, TableWrapper, BorderLessHeading } from './styled';
   import { TicketBox } from './styled';
   import { useStore } from 'vuex';
   import OverviewCard from '@/components/cards/OverviewCard.vue';
   import { defineComponent, onMounted, computed, ref } from 'vue';
+  import DataTables from '@/components/table/DataTable.vue';
 
   import { idGenerator } from '../../../utility/utility';
   import dayjs from 'dayjs';
@@ -165,6 +188,8 @@
       TicketBox,
       TableWrapper,
       OverviewCard,
+      DataTables,
+      BorderLessHeading,
       // OverviewDataList,
     },
 
@@ -172,6 +197,7 @@
       const route = useRouter();
       const { state, dispatch } = useStore();
       const visible = ref(false);
+      const mStandardMatrix = ref([]);
 
       const formattedDate = (date) => {
         return dayjs(date).format('DD-MM-YYYY');
@@ -206,6 +232,8 @@
           data.value = response.data;
           box1.value.total = data.value?.data?.total_area;
           box2.value.total = data.value?.data?.supports_count;
+          mStandardMatrix.value = data.value?.m_standard;
+          console.log(data.value?.m_standard);
         } catch (error) {
           console.log(error);
         }
@@ -279,6 +307,34 @@
         visible.value = false;
       };
 
+      const mStandardMatrixColumns = [
+        {
+          title: 'Id',
+          dataIndex: 'id',
+          key: 'id',
+        },
+        {
+          title: 'Przedział',
+          dataIndex: 'range',
+          key: 'range',
+        },
+        {
+          title: 'Wysokość mm',
+          dataIndex: 'wys_mm',
+          key: 'wys_mm',
+        },
+        {
+          title: 'Warunek',
+          dataIndex: 'condition',
+          key: 'condition',
+        },
+        {
+          title: 'Ilość w przedziale',
+          dataIndex: 'count_in_range',
+          key: 'count_in_range',
+        },
+      ];
+
       return {
         // dataSource,
         handleIdSearch,
@@ -297,6 +353,8 @@
         data,
         box1,
         box2,
+        mStandardMatrix,
+        mStandardMatrixColumns,
       };
     },
   });
@@ -304,7 +362,7 @@
   export default SupportTicket;
 </script>
 
-<style>
+<style lang="scss">
   .additional-accessories-list-item {
     display: flex;
     flex-direction: column;
@@ -312,5 +370,11 @@
     gap: 6px;
     padding: 14px 0;
     border-bottom: 1px solid #e8e8e8;
+  }
+
+  .m_standard {
+    .euSnSZ table thead tr th:last-child {
+      text-align: left;
+    }
   }
 </style>
