@@ -212,7 +212,7 @@
       };
 
       onMounted(() => {
-        const id = route?.currentRoute.value.params.id;
+        // const id = route?.currentRoute.value.params.id;
         getData();
 
         // dispatch('ticketReadData');
@@ -221,7 +221,7 @@
         //   endpoint: id,
         // });
 
-        console.log(typeof state.reports.reportData.products);
+        // console.log(typeof state.reports.reportData.products);
       });
 
       const reportData = computed(() => state.reports.reportData);
