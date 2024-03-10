@@ -30,7 +30,7 @@
               <span className="ninjadahs-overview-label">{{
                 ocData.label
               }}</span>
-              <h4 class="ninjadash-overview-total">
+              <h4 v-if="ocData.total" class="ninjadash-overview-total">
                 <vue3-autocounter
                   ref="counter"
                   :startAmount="0"
@@ -46,7 +46,7 @@
               </h4>
             </template>
             <template v-else>
-              <h4 class="ninjadash-overview-total">
+              <h4 v-if="ocData.total" class="ninjadash-overview-total">
                 <vue3-autocounter
                   ref="counter"
                   :startAmount="0"
@@ -59,6 +59,12 @@
                   :decimals="ocData.decimal"
                   :autoinit="true"
                 ></vue3-autocounter>
+              </h4>
+              <h4 v-if="!ocData.total" class="ninjadash-overview-total">
+                {{
+                  ocData.prefix.charAt(0).toUpperCase() +
+                  this.ocData.prefix.slice(1)
+                }}
               </h4>
               <span class="ninjadahs-overview-label">{{ ocData.label }}</span>
             </template>
